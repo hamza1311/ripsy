@@ -7,7 +7,7 @@ pub mod __macro_helpers;
 #[cfg(feature = "client")]
 pub mod client;
 
-pub use macros::{endpoint, ripsy};
+pub use ripsy_macros::{endpoint, ripsy};
 use serde::Serialize;
 
 #[derive(Debug, Clone, Copy)]

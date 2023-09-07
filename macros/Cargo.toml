@@ -1,7 +1,13 @@
 [package]
-name = "macros"
+name = "ripsy-macros"
 version = "0.1.0"
 edition = "2021"
+authors = ["Muhammad Hamza <me@mhamza.dev>"]
+license = "MIT OR Apache-2.0"
+readme = "../README.md"
+documentation = "https://docs.rs/ripsy"
+description = "proc-macros for ripsy"
+repository = "https://github.com/hamza1311/ripsy"
 
 [lib]
 proc-macro = true
