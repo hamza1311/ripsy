@@ -1,0 +1,58 @@
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches: [ master ]
+
+jobs:
+  fmt:
+    name: Rustfmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rustfmt
+
+      - name: Run cargo fmt
+        run: cargo +nightly fmt --all -- --check
+
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+          components: clippy
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Run clippy
+        run: cargo clippy --all-targets --all-features
+
+      - name: Run clippy on gloo-net
+        run: |
+          cargo clippy --features "client" -p client -p shared -p macros
+          cargo clippy --features "server" -p server -p shared -p macros
+
+# TODO: when there are tests to run
+#  native_tests:
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        rust-version: [ stable, nightly ]
+#    name: Native Tests
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: dtolnay/rust-toolchain@master
+#        with:
+#          toolchain: ${{ matrix.rust-version }}
+#
+#      - uses: Swatinem/rust-cache@v2
+#
+#      - name: Run tests
+#        run: cargo test --all-features
